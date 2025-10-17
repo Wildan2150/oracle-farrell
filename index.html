@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -76,12 +77,14 @@
             font-size: 1.5rem;
             color: var(--secondary-color);
             text-decoration: none;
+            max-height: 60px;
         }
 
-        .logo i {
+        .logo img {
             color: var(--accent-color);
             margin-right: 10px;
             font-size: 1.8rem;
+            max-height: 60px;
         }
 
         .nav-links {
@@ -167,7 +170,7 @@
             background: var(--accent-color);
             bottom: -5px;
             left: 25%;
-            
+
         }
 
         .features-grid {
@@ -215,7 +218,8 @@
             box-shadow: var(--shadow);
         }
 
-        .comparison-table th, .comparison-table td {
+        .comparison-table th,
+        .comparison-table td {
             padding: 12px 15px;
             text-align: left;
             border-bottom: 1px solid var(--light-gray);
@@ -713,9 +717,17 @@
             margin-right: 5px;
         }
 
-        .tiktok { color: #000000; }
-        .instagram { color: #E4405F; }
-        .facebook { color: #1877F2; }
+        .tiktok {
+            color: #000000;
+        }
+
+        .instagram {
+            color: #E4405F;
+        }
+
+        .facebook {
+            color: #1877F2;
+        }
 
         /* Mobile Responsiveness */
         @media (max-width: 768px) {
@@ -781,27 +793,46 @@
 
         /* Animations */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .fade-in {
             animation: fadeIn 0.5s ease-out forwards;
         }
 
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.2s; }
-        .delay-3 { animation-delay: 0.3s; }
-        .delay-4 { animation-delay: 0.4s; }
+        .delay-1 {
+            animation-delay: 0.1s;
+        }
+
+        .delay-2 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-3 {
+            animation-delay: 0.3s;
+        }
+
+        .delay-4 {
+            animation-delay: 0.4s;
+        }
     </style>
 </head>
+
 <body>
     <!-- Header -->
     <header>
         <div class="container">
             <nav class="navbar">
                 <a href="#" class="logo">
-                    <i class="fas fa-robot"></i>
+                    <img src="https://blogger.googleusercontent.com/img/a/AVvXsEgCWHRyjPRcjqprr1mRELyU08eCem6Zfo2hWSWpb-IW-g6C5Mjhu3UBpi6x76F0jEo6z_PpSzQI6ZyveMIRGm__6onP7yqBO3i_xUEJFwbS0MrDq2v1ew0m3-9rcXQfuw-U3SATOFwb_zaLVXZs841KQ_JgmvQ6Rsd_a3bA1WSJIIuwTj8E2FNq5bIYNUZT" alt="CAIS Logo">
                     CAIS
                 </a>
                 <ul class="nav-links">
@@ -821,8 +852,10 @@
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="container">
+            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEiCawvYyuQOFSviLZr2iD4hbUiP6WHFQYEMNHhAA1vK3X0MlAVb-QIeP1vxe8KakJXZ3ShaPn8aadQDT26LM3L_XXEQu7ag-odHCPwIINnD_GAdeHJcrYAXr2IJvx091tHmw9l_FuYowpEHTEyK0QdvTXTUCR__x7Bb4PgWa6R_achuWVKgx6TsbcFOIfxF" alt="CAIS Logo" style="height: 250px; margin-bottom: 20px;">
             <h1 class="fade-in">CAIS - AI Copilot Asisten Belanja</h1>
-            <p class="fade-in delay-1">Asisten AI pintar yang membantu Anda berbelanja lebih cerdas, berkelanjutan, dan hemat dengan analisis produk mendalam dan perbandingan real-time.</p>
+            <p class="fade-in delay-1">Asisten AI pintar yang membantu Anda berbelanja lebih cerdas, berkelanjutan, dan
+                hemat dengan analisis produk mendalam dan perbandingan real-time.</p>
         </div>
     </section>
 
@@ -839,7 +872,8 @@
                         <i class="fas fa-search"></i>
                     </div>
                     <h3>Analisis Produk Mendalam</h3>
-                    <p>Dapatkan penjabaran detail produk, ulasan positif & negatif, serta rekomendasi AI berdasarkan profil Anda.</p>
+                    <p>Dapatkan penjabaran detail produk, ulasan positif & negatif, serta rekomendasi AI berdasarkan
+                        profil Anda.</p>
                 </div>
                 <div class="feature-card fade-in delay-2">
                     <div class="feature-icon">
@@ -853,14 +887,16 @@
                         <i class="fas fa-balance-scale"></i>
                     </div>
                     <h3>Komparasi Produk & Harga</h3>
-                    <p>Bandingkan produk serupa dari berbagai merchant dengan analisis harga dan kualitas terperinci.</p>
+                    <p>Bandingkan produk serupa dari berbagai merchant dengan analisis harga dan kualitas terperinci.
+                    </p>
                 </div>
                 <div class="feature-card fade-in delay-4">
                     <div class="feature-icon">
                         <i class="fas fa-leaf"></i>
                     </div>
                     <h3>Sustainable Shopping</h3>
-                    <p>Bantu lingkungan dengan rekomendasi produk berkualitas tinggi yang tahan lama dan ramah lingkungan.</p>
+                    <p>Bantu lingkungan dengan rekomendasi produk berkualitas tinggi yang tahan lama dan ramah
+                        lingkungan.</p>
                 </div>
             </div>
         </div>
@@ -889,10 +925,12 @@
                         <tr>
                             <td>
                                 <div style="display: flex; align-items: center;">
-                                    <img src="https://media.dinomarket.com/docs/imgTD/2017-03/4HR211530Blue_310317150309_ll.jpg.jpg" alt="Produk A" class="product-image">
+                                    <img src="https://media.dinomarket.com/docs/imgTD/2017-03/4HR211530Blue_310317150309_ll.jpg.jpg"
+                                        alt="Produk A" class="product-image">
                                     <div style="margin-left: 10px;">
                                         <strong>Blender Philips HR2115</strong>
-                                        <div style="font-size: 0.8rem; color: var(--dark-gray);">Merchant: ElectronicMall</div>
+                                        <div style="font-size: 0.8rem; color: var(--dark-gray);">Merchant:
+                                            ElectronicMall</div>
                                     </div>
                                 </div>
                             </td>
@@ -913,10 +951,12 @@
                         <tr>
                             <td>
                                 <div style="display: flex; align-items: center;">
-                                    <img src="https://cdn.topsellbelanja.com/wp-content/uploads/2022/08/ezgif-2-abdf953a87.webp" alt="Produk B" class="product-image">
+                                    <img src="https://cdn.topsellbelanja.com/wp-content/uploads/2022/08/ezgif-2-abdf953a87.webp"
+                                        alt="Produk B" class="product-image">
                                     <div style="margin-left: 10px;">
                                         <strong>Blender Cosmos CB 201</strong>
-                                        <div style="font-size: 0.8rem; color: var(--dark-gray);">Merchant: HomeAppliance</div>
+                                        <div style="font-size: 0.8rem; color: var(--dark-gray);">Merchant: HomeAppliance
+                                        </div>
                                     </div>
                                 </div>
                             </td>
@@ -937,10 +977,12 @@
                         <tr>
                             <td>
                                 <div style="display: flex; align-items: center;">
-                                    <img src="https://miyako.co.id/wp-content/uploads/2024/07/BL-101-PL-1-aspect-ratio-1080-1080.jpg" alt="Produk C" class="product-image">
+                                    <img src="https://miyako.co.id/wp-content/uploads/2024/07/BL-101-PL-1-aspect-ratio-1080-1080.jpg"
+                                        alt="Produk C" class="product-image">
                                     <div style="margin-left: 10px;">
                                         <strong>Blender Miyako BL-101</strong>
-                                        <div style="font-size: 0.8rem; color: var(--dark-gray);">Merchant: ElektroShop</div>
+                                        <div style="font-size: 0.8rem; color: var(--dark-gray);">Merchant: ElektroShop
+                                        </div>
                                     </div>
                                 </div>
                             </td>
@@ -1023,7 +1065,8 @@
                 </div>
                 <div class="chat-messages" id="chat-messages">
                     <div class="message ai-message">
-                        Halo! Saya CAIS, asisten AI Anda. Saya siap membantu Anda menemukan produk terbaik sesuai kebutuhan dan budget. Produk apa yang ingin Anda cari hari ini?
+                        Halo! Saya CAIS, asisten AI Anda. Saya siap membantu Anda menemukan produk terbaik sesuai
+                        kebutuhan dan budget. Produk apa yang ingin Anda cari hari ini?
                     </div>
                 </div>
                 <div class="chat-input">
@@ -1044,7 +1087,8 @@
             <div class="analysis-cards">
                 <div class="analysis-card fade-in delay-1">
                     <h3><i class="fas fa-award"></i> Kualitas Produk</h3>
-                    <p>Blender Philips HR2115 memiliki kualitas bahan yang baik dan daya tahan tinggi berdasarkan 1.248 ulasan.</p>
+                    <p>Blender Philips HR2115 memiliki kualitas bahan yang baik dan daya tahan tinggi berdasarkan 1.248
+                        ulasan.</p>
                     <div class="progress-bar">
                         <div class="progress" style="width: 85%;"></div>
                     </div>
@@ -1066,7 +1110,8 @@
                 </div>
                 <div class="analysis-card fade-in delay-3">
                     <h3><i class="fas fa-wallet"></i> Nilai Investasi</h3>
-                    <p>Dengan garansi 2 tahun dan perkiraan umur pakai 5+ tahun, produk ini memiliki nilai investasi yang baik.</p>
+                    <p>Dengan garansi 2 tahun dan perkiraan umur pakai 5+ tahun, produk ini memiliki nilai investasi
+                        yang baik.</p>
                     <div class="progress-bar">
                         <div class="progress" style="width: 80%;"></div>
                     </div>
@@ -1085,7 +1130,8 @@
             <div class="footer-content">
                 <div class="footer-column">
                     <h3>Tentang CAIS</h3>
-                    <p>CAIS adalah AI Copilot asisten belanja yang membantu konsumen membuat keputusan pembelian yang lebih cerdas dan berkelanjutan.</p>
+                    <p>CAIS adalah AI Copilot asisten belanja yang membantu konsumen membuat keputusan pembelian yang
+                        lebih cerdas dan berkelanjutan.</p>
                 </div>
                 <div class="footer-column">
                     <h3>Link Cepat</h3>
@@ -1133,7 +1179,8 @@
         </div>
         <div class="copilot-content" id="copilot-content">
             <div class="message ai-message">
-                Halo! Ada yang bisa saya bantu? Saya bisa membantu Anda menganalisis produk, membandingkan harga, atau memberikan rekomendasi.
+                Halo! Ada yang bisa saya bantu? Saya bisa membantu Anda menganalisis produk, membandingkan harga, atau
+                memberikan rekomendasi.
             </div>
         </div>
         <div class="copilot-input">
