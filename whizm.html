@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WHIZ M - Verifikasi Kontak Hotel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-color: #ffffff;
+            --secondary-color: #000000;
+            --accent-color: #fbbf24;
+            --accent-light: #fcd34d;
+            --accent-dark: #f59e0b;
+            --accent-green: #10b981;
+            --text-color: #333333;
+            --light-gray: #f5f5f5;
+            --dark-gray: #555555;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --chat-user: #e0f2fe;
+            --chat-ai: #fef3c7;
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #121212;
+            --secondary-color: #ffffff;
+            --text-color: #e0e0e0;
+            --light-gray: #1e1e1e;
+            --dark-gray: #aaaaaa;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            --chat-user: #1e3a5f;
+            --chat-ai: #78350f;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--primary-color);
+            box-shadow: var(--shadow);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            text-decoration: none;
+        }
+
+        .logo i {
+            color: var(--accent-color);
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--secondary-color);
+            font-weight: 500;
+            position: relative;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--accent-color);
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .login-btn, .register-btn {
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+        }
+
+        .login-btn {
+            background: transparent;
+            border: 2px solid var(--accent-color);
+            color: var(--secondary-color);
+        }
+
+        .register-btn {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .login-btn:hover {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .register-btn:hover {
+            background: var(--accent-dark);
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 150px 0 80px;
+            text-align: center;
+            background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-green) 100%);
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background: white;
+            color: var(--accent-color);
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--secondary-color);
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .section-title h2:after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 3px;
+            background: var(--accent-color);
+            bottom: -10px;
+            left: 25%;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: var(--primary-color);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+        }
+
+        .feature-card h3 {
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+        }
+
+        /* Verification Section */
+        .verification {
+            padding: 80px 0;
+            background-color: var(--light-gray);
+        }
+
+        .verification-form {
+            background: var(--primary-color);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--secondary-color);
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+            background: var(--light-gray);
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .verify-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .verify-btn:hover {
+            background: var(--accent-dark);
+        }
+
+        .verification-result {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .verification-result.verified {
+            background: #d1fae5;
+            border: 1px solid #10b981;
+            color: #065f46;
+        }
+
+        .verification-result.fraud {
+            background: #fee2e2;
+            border: 1px solid #ef4444;
+            color: #7f1d1d;
+        }
+
+        .verification-result.unknown {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            color: #92400e;
+        }
+
+        /* Fraud Reports Section */
+        .fraud-reports {
+            padding: 80px 0;
+        }
+
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .report-card {
+            background: var(--primary-color);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .report-number {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+        }
+
+        .report-status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .report-status.confirmed {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .report-status.investigation {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .report-details {
+            margin-bottom: 15px;
+        }
+
+        .report-proof {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .proof-image {
+            height: 80px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .report-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .report-btn {
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+        }
+
+        .upvote-btn {
+            background: var(--accent-green);
+            color: white;
+        }
+
+        .details-btn {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        /* Report Form Section */
+        .report-form-section {
+            padding: 80px 0;
+            background-color: var(--light-gray);
+        }
+
+        .report-form {
+            background: var(--primary-color);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .file-upload {
+            border: 2px dashed var(--dark-gray);
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        .file-upload i {
+            font-size: 2rem;
+            color: var(--dark-gray);
+            margin-bottom: 10px;
+        }
+
+        .file-upload p {
+            color: var(--dark-gray);
+        }
+
+        /* Contacts Section */
+        .contacts-section {
+            padding: 80px 0;
+        }
+
+        .contacts-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--primary-color);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .contacts-table th, .contacts-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .contacts-table th {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .contacts-table tr:hover {
+            background-color: rgba(251, 191, 36, 0.1);
+        }
+
+        .contact-verified {
+            color: var(--accent-green);
+        }
+
+        /* Points Section */
+        .points-section {
+            padding: 80px 0;
+            background-color: var(--light-gray);
+        }
+
+        .points-card {
+            background: var(--primary-color);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .points-display {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        .points-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .points-btn {
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+        }
+
+        .earn-btn {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .redeem-btn {
+            background: var(--accent-green);
+            color: white;
+        }
+
+        /* Chatbot */
+        .chatbot-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+
+        .chatbot-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
+            cursor: pointer;
+            border: none;
+        }
+
+        .chatbot-window {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 350px;
+            height: 500px;
+            background: var(--primary-color);
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            display: none;
+            flex-direction: column;
+            border: 1px solid var(--light-gray);
+        }
+
+        .chatbot-window.active {
+            display: flex;
+        }
+
+        .chatbot-header {
+            padding: 15px;
+            background: var(--accent-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chatbot-header h3 {
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .chatbot-header h3 i {
+            margin-right: 10px;
+        }
+
+        .close-chatbot {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background: var(--light-gray);
+        }
+
+        .message {
+            margin-bottom: 15px;
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .user-message {
+            background: var(--chat-user);
+            color: var(--text-color);
+            border-top-right-radius: 5px;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+
+        .ai-message {
+            background: var(--chat-ai);
+            color: var(--text-color);
+            border-top-left-radius: 5px;
+            align-self: flex-start;
+        }
+
+        .chatbot-input {
+            display: flex;
+            padding: 10px;
+            background: var(--primary-color);
+            border-top: 1px solid var(--light-gray);
+        }
+
+        .chatbot-input input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 30px;
+            outline: none;
+            background: var(--light-gray);
+            color: var(--text-color);
+        }
+
+        .chatbot-input button {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--secondary-color);
+            color: white;
+            padding: 50px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-column h3 {
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            color: #cccccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--accent-color);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+            color: #aaaaaa;
+            font-size: 0.9rem;
+        }
+
+        /* Settings Panel */
+        .settings-panel {
+            position: fixed;
+            top: 0;
+            right: -350px;
+            width: 350px;
+            height: 100vh;
+            background: var(--primary-color);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            z-index: 1001;
+            transition: right 0.3s;
+            overflow-y: auto;
+            padding: 20px;
+            border-left: 1px solid var(--light-gray);
+        }
+
+        .settings-panel.open {
+            right: 0;
+        }
+
+        .settings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .settings-header h2 {
+            color: var(--secondary-color);
+            font-size: 1.3rem;
+        }
+
+        .close-settings {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            cursor: pointer;
+        }
+
+        .setting-group {
+            margin-bottom: 25px;
+        }
+
+        .setting-group h3 {
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+            font-size: 1.1rem;
+        }
+
+        .theme-options {
+            display: flex;
+            gap: 15px;
+        }
+
+        .theme-option {
+            flex: 1;
+            text-align: center;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 5px;
+            border: 2px solid var(--light-gray);
+        }
+
+        .theme-option.active {
+            border-color: var(--accent-color);
+        }
+
+        .theme-option i {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .top-reporters {
+            background: var(--light-gray);
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .reporter-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--dark-gray);
+        }
+
+        .reporter-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Settings Button */
+        .settings-button {
+            position: fixed;
+            bottom: 100px;
+            left: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
+            cursor: pointer;
+            border: none;
+            z-index: 1000;
+        }
+
+        /* Login Modal */
+        .login-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1002;
+        }
+
+        .login-modal.active {
+            display: flex;
+        }
+
+        .login-form {
+            background: var(--primary-color);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            width: 400px;
+            max-width: 90%;
+        }
+
+        .login-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .login-header h2 {
+            color: var(--secondary-color);
+        }
+
+        .close-login {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            cursor: pointer;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 80%;
+                height: calc(100vh - 70px);
+                background: var(--primary-color);
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+                transition: left 0.3s;
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links li {
+                margin: 15px 0;
+            }
+
+            .auth-buttons {
+                display: none;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .hero {
+                padding: 120px 0 60px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .chatbot-window {
+                width: 90%;
+                right: 5%;
+                bottom: 80px;
+            }
+
+            .settings-panel {
+                width: 100%;
+                right: -100%;
+            }
+
+            .settings-panel.open {
+                right: 0;
+            }
+
+            .settings-button {
+                bottom: 30px;
+                left: 30px;
+            }
+
+            .chatbot-container {
+                bottom: 30px;
+                right: 30px;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">
+                    <i class="fas fa-shield-alt"></i>
+                    WHIZ M
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#home">Beranda</a></li>
+                    <li><a href="#verification">Verifikasi</a></li>
+                    <li><a href="#reports">Lapor Penipuan</a></li>
+                    <li><a href="#contacts">Kontak Resmi</a></li>
+                    <li><a href="#points">Poin & Hadiah</a></li>
+                </ul>
+                <div class="auth-buttons">
+                    <button class="login-btn" id="login-btn">Masuk</button>
+                    <button class="register-btn">Daftar</button>
+                </div>
+                <div class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1 class="fade-in">WHIZ M - Verifikasi Kontak Hotel</h1>
+            <p class="fade-in delay-1">Platform terpercaya untuk memverifikasi kontak hotel resmi dan melaporkan penipuan yang mengatasnamakan hotel. Lindungi diri Anda dari penipuan dengan WHIZ M.</p>
+            <a href="#verification" class="cta-button fade-in delay-2">Verifikasi Sekarang</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Fitur WHIZ M</h2>
+                <p>Lindungi diri Anda dengan fitur-fitur keamanan WHIZ M</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card fade-in delay-1">
+                    <div class="feature-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>Verifikasi Kontak</h3>
+                    <p>Verifikasi nomor WhatsApp, telepon, dan email hotel untuk memastikan keaslian kontak.</p>
+                </div>
+                <div class="feature-card fade-in delay-2">
+                    <div class="feature-icon">
+                        <i class="fas fa-flag"></i>
+                    </div>
+                    <h3>Lapor Penipuan</h3>
+                    <p>Laporkan nomor penipu yang mengatasnamakan hotel dengan bukti yang valid.</p>
+                </div>
+                <div class="feature-card fade-in delay-3">
+                    <div class="feature-icon">
+                        <i class="fas fa-address-book"></i>
+                    </div>
+                    <h3>Kontak Resmi</h3>
+                    <p>Akses database kontak resmi hotel dan manajemen yang terverifikasi.</p>
+                </div>
+                <div class="feature-card fade-in delay-4">
+                    <div class="feature-icon">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <h3>Program Poin</h3>
+                    <p>Dapatkan poin untuk setiap laporan dan tukarkan dengan hadiah menarik.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Verification Section -->
+    <section class="verification" id="verification">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Verifikasi Kontak Hotel</h2>
+                <p>Pastikan keaslian kontak sebelum melakukan transaksi</p>
+            </div>
+            <div class="verification-form fade-in delay-1">
+                <div class="form-group">
+                    <label for="contact-type">Jenis Kontak</label>
+                    <select id="contact-type">
+                        <option value="whatsapp">Nomor WhatsApp</option>
+                        <option value="phone">Nomor Telepon</option>
+                        <option value="email">Alamat Email</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="contact-value">Kontak yang akan diverifikasi</label>
+                    <input type="text" id="contact-value" placeholder="Contoh: +6281234567890">
+                </div>
+                <div class="form-group">
+                    <label for="hotel-name">Nama Hotel (Opsional)</label>
+                    <input type="text" id="hotel-name" placeholder="Contoh: Hotel Grand Majapahit">
+                </div>
+                <button class="verify-btn" id="verify-btn">Verifikasi Sekarang</button>
+                
+                <div class="verification-result" id="verification-result">
+                    <h3 id="result-title">Hasil Verifikasi</h3>
+                    <p id="result-description">Deskripsi hasil verifikasi akan muncul di sini.</p>
+                    <div id="result-details"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fraud Reports Section -->
+    <section class="fraud-reports" id="reports">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Laporan Penipuan Terbaru</h2>
+                <p>Waspadai nomor-nomor yang dilaporkan sebagai penipu</p>
+            </div>
+            <div class="reports-grid">
+                <div class="report-card fade-in delay-1">
+                    <div class="report-header">
+                        <div class="report-number">+6285712345678</div>
+                        <div class="report-status confirmed">Terkonfirmasi</div>
+                    </div>
+                    <div class="report-details">
+                        <p>Mengatasnamakan Hotel Santika Bandung, meminta transfer DP booking kamar.</p>
+                        <p><strong>Hotel yang disalahgunakan:</strong> Hotel Santika Bandung</p>
+                        <p><strong>Jumlah laporan:</strong> 24</p>
+                    </div>
+                    <div class="report-proof">
+                        <div class="proof-image" style="background-image: url('https://via.placeholder.com/150')"></div>
+                        <div class="proof-image" style="background-image: url('https://via.placeholder.com/150')"></div>
+                        <div class="proof-image" style="background-image: url('https://via.placeholder.com/150')"></div>
+                    </div>
+                    <div class="report-actions">
+                        <button class="report-btn upvote-btn">Konfirmasi Laporan</button>
+                        <button class="report-btn details-btn">Detail</button>
+                    </div>
+                </div>
+                <div class="report-card fade-in delay-2">
+                    <div class="report-header">
+                        <div class="report-number">reservasi@hotel-bogor-palsu.com</div>
+                        <div class="report-status investigation">Dalam Investigasi</div>
+                    </div>
+                    <div class="report-details">
+                        <p>Email reservasi palsu yang mengirimkan invoice dengan logo hotel asli.</p>
+                        <p><strong>Hotel yang disalahgunakan:</strong> Hotel Salak The Heritage</p>
+                        <p><strong>Jumlah laporan:</strong> 12</p>
+                    </div>
+                    <div class="report-proof">
+                        <div class="proof-image" style="background-image: url('https://via.placeholder.com/150')"></div>
+                        <div class="proof-image" style="background-image: url('https://via.placeholder.com/150')"></div>
+                        <div class="proof-image" style="background-image: url('https://via.placeholder.com/150')"></div>
+                    </div>
+                    <div class="report-actions">
+                        <button class="report-btn upvote-btn">Konfirmasi Laporan</button>
+                        <button class="report-btn details-btn">Detail</button>
+                    </div>
+                </div>
+                <div class="report-card fade-in delay-3">
+                    <div class="report-header">
+                        <div class="report-number">+6287898765432</div>
+                        <div class="report-status confirmed">Terkonfirmasi</div>
+                    </div>
+                    <div class="report-details">
+                        <p>Menawarkan diskon kamar hotel mewah dengan syarat transfer uang muka.</p>
+                        <p><strong>Hotel yang disalahgunakan:</strong> The Ritz-Carlton Jakarta</p>
+                        <p><strong>Jumlah laporan:</strong> 31</p>
+                    </div>
+                    <div class="report-proof">
+                        <div class="proof-image" style="background-image: url('https://via.placeholder.com/150')"></div>
+                        <div class="proof-image" style="background-image: url('https://via.placeholder.com/150')"></div>
+                        <div class="proof-image" style="background-image: url('https://via.placeholder.com/150')"></div>
+                    </div>
+                    <div class="report-actions">
+                        <button class="report-btn upvote-btn">Konfirmasi Laporan</button>
+                        <button class="report-btn details-btn">Detail</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Report Form Section -->
+    <section class="report-form-section">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Laporkan Penipuan</h2>
+                <p>Bantu kami melindungi masyarakat dengan melaporkan penipuan</p>
+            </div>
+            <div class="report-form fade-in delay-1">
+                <div class="form-group">
+                    <label for="report-contact">Kontak Penipu</label>
+                    <input type="text" id="report-contact" placeholder="Nomor WhatsApp/Telepon/Email penipu">
+                </div>
+                <div class="form-group">
+                    <label for="report-hotel">Hotel yang Disalahgunakan</label>
+                    <input type="text" id="report-hotel" placeholder="Nama hotel yang diklaim penipu">
+                </div>
+                <div class="form-group">
+                    <label for="report-details">Detail Penipuan</label>
+                    <textarea id="report-details" rows="4" placeholder="Jelaskan bagaimana penipuan terjadi"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Bukti Penipuan (Maks. 3 gambar)</label>
+                    <div class="file-upload" id="file-upload">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Klik untuk mengunggah bukti penipuan</p>
+                    </div>
+                </div>
+                <button class="verify-btn" id="report-submit">Kirim Laporan</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacts Section -->
+    <section class="contacts-section" id="contacts">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Kontak Hotel Resmi</h2>
+                <p>Database kontak resmi hotel yang telah terverifikasi</p>
+            </div>
+            <div class="fade-in delay-1">
+                <table class="contacts-table">
+                    <thead>
+                        <tr>
+                            <th>Nama Hotel</th>
+                            <th>Kontak</th>
+                            <th>Jenis</th>
+                            <th>Departemen</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Hotel Indonesia Kempinski</td>
+                            <td>+62212381818</td>
+                            <td>Telepon</td>
+                            <td>Reservasi</td>
+                            <td class="contact-verified">Terverifikasi</td>
+                        </tr>
+                        <tr>
+                            <td>Hotel Indonesia Kempinski</td>
+                            <td>+628118721888</td>
+                            <td>WhatsApp</td>
+                            <td>Reservasi</td>
+                            <td class="contact-verified">Terverifikasi</td>
+                        </tr>
+                        <tr>
+                            <td>Hotel Indonesia Kempinski</td>
+                            <td>reservation@kempinski.com</td>
+                            <td>Email</td>
+                            <td>Reservasi</td>
+                            <td class="contact-verified">Terverifikasi</td>
+                        </tr>
+                        <tr>
+                            <td>Hotel Santika Bandung</td>
+                            <td>+62224207777</td>
+                            <td>Telepon</td>
+                            <td>Reservasi</td>
+                            <td class="contact-verified">Terverifikasi</td>
+                        </tr>
+                        <tr>
+                            <td>Hotel Santika Bandung</td>
+                            <td>+628112345678</td>
+                            <td>WhatsApp</td>
+                            <td>Reservasi</td>
+                            <td class="contact-verified">Terverifikasi</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Points Section -->
+    <section class="points-section" id="points">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Program Poin WHIZ M</h2>
+                <p>Kumpulkan poin dengan melaporkan penipuan dan tukarkan dengan hadiah</p>
+            </div>
+            <div class="points-card fade-in delay-1">
+                <div class="points-display" id="points-count">0</div>
+                <p>Total poin yang Anda miliki</p>
+                <div class="points-actions">
+                    <button class="points-btn earn-btn" id="earn-points">Cara Mendapatkan Poin</button>
+                    <button class="points-btn redeem-btn" id="redeem-points">Tukar Poin</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Tentang WHIZ M</h3>
+                    <p>Platform verifikasi kontak hotel dan pelaporan penipuan untuk melindungi konsumen dari penipuan yang mengatasnamakan hotel.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Link Cepat</h3>
+                    <ul>
+                        <li><a href="#home">Beranda</a></li>
+                        <li><a href="#verification">Verifikasi</a></li>
+                        <li><a href="#reports">Lapor Penipuan</a></li>
+                        <li><a href="#contacts">Kontak Resmi</a></li>
+                        <li><a href="#points">Poin & Hadiah</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Bantuan</h3>
+                    <ul>
+                        <li><a href="#">Panduan Penggunaan</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Syarat & Ketentuan</a></li>
+                        <li><a href="#">Kebijakan Privasi</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Kontak</h3>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> support@whizm.id</li>
+                        <li><i class="fas fa-phone"></i> (021) 1234-5678</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Jakarta, Indonesia</li>
+                    </ul>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 WHIZ M - Platform Verifikasi Kontak Hotel. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chatbot -->
+    <div class="chatbot-container">
+        <button class="chatbot-button" id="chatbot-toggle">
+            <i class="fas fa-comments"></i>
+        </button>
+        <div class="chatbot-window" id="chatbot-window">
+            <div class="chatbot-header">
+                <h3><i class="fas fa-robot"></i> WHIZ M Assistant</h3>
+                <button class="close-chatbot" id="close-chatbot">&times;</button>
+            </div>
+            <div class="chatbot-messages" id="chatbot-messages">
+                <div class="message ai-message">
+                    Halo! Saya asisten WHIZ M. Saya siap membantu Anda dengan verifikasi kontak hotel atau pelaporan penipuan. Ada yang bisa saya bantu?
+                </div>
+            </div>
+            <div class="chatbot-input">
+                <input type="text" id="chatbot-input" placeholder="Ketik pertanyaan Anda...">
+                <button id="send-chatbot-message"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Panel -->
+    <div class="settings-panel" id="settings-panel">
+        <div class="settings-header">
+            <h2>Pengaturan</h2>
+            <button class="close-settings" id="close-settings">&times;</button>
+        </div>
+        <div class="setting-group">
+            <h3>Tema Tampilan</h3>
+            <div class="theme-options">
+                <div class="theme-option active" data-theme="light">
+                    <i class="fas fa-sun"></i>
+                    <p>Terang</p>
+                </div>
+                <div class="theme-option" data-theme="dark">
+                    <i class="fas fa-moon"></i>
+                    <p>Gelap</p>
+                </div>
+            </div>
+        </div>
+        <div class="setting-group">
+            <h3>Pelapor Paling Aktif</h3>
+            <div class="top-reporters">
+                <div class="reporter-item">
+                    <span>Budi Santoso</span>
+                    <span>24 laporan</span>
+                </div>
+                <div class="reporter-item">
+                    <span>Sari Indah</span>
+                    <span>18 laporan</span>
+                </div>
+                <div class="reporter-item">
+                    <span>Rizki Pratama</span>
+                    <span>15 laporan</span>
+                </div>
+                <div class="reporter-item">
+                    <span>Dewi Lestari</span>
+                    <span>12 laporan</span>
+                </div>
+                <div class="reporter-item">
+                    <span>Ahmad Fauzi</span>
+                    <span>10 laporan</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Button -->
+    <button class="settings-button" id="settings-toggle">
+        <i class="fas fa-cog"></i>
+    </button>
+
+    <!-- Login Modal -->
+    <div class="login-modal" id="login-modal">
+        <div class="login-form">
+            <div class="login-header">
+                <h2>Masuk ke WHIZ M</h2>
+                <button class="close-login" id="close-login">&times;</button>
+            </div>
+            <div class="form-group">
+                <label for="login-email">Email</label>
+                <input type="email" id="login-email" placeholder="email@contoh.com">
+            </div>
+            <div class="form-group">
+                <label for="login-password">Kata Sandi</label>
+                <input type="password" id="login-password" placeholder="Kata sandi Anda">
+            </div>
+            <button class="verify-btn" id="login-submit">Masuk</button>
+            <p style="text-align: center; margin-top: 15px;">Belum punya akun? <a href="#" style="color: var(--accent-color);">Daftar di sini</a></p>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        const loginBtn = document.getElementById('login-btn');
+        const loginModal = document.getElementById('login-modal');
+        const closeLogin = document.getElementById('close-login');
+        const verifyBtn = document.getElementById('verify-btn');
+        const verificationResult = document.getElementById('verification-result');
+        const resultTitle = document.getElementById('result-title');
+        const resultDescription = document.getElementById('result-description');
+        const resultDetails = document.getElementById('result-details');
+        const chatbotToggle = document.getElementById('chatbot-toggle');
+        const chatbotWindow = document.getElementById('chatbot-window');
+        const closeChatbot = document.getElementById('close-chatbot');
+        const chatbotMessages = document.getElementById('chatbot-messages');
+        const chatbotInput = document.getElementById('chatbot-input');
+        const sendChatbotMessage = document.getElementById('send-chatbot-message');
+        const settingsToggle = document.getElementById('settings-toggle');
+        const settingsPanel = document.getElementById('settings-panel');
+        const closeSettings = document.getElementById('close-settings');
+        const themeOptions = document.querySelectorAll('.theme-option');
+        const pointsCount = document.getElementById('points-count');
+        const earnPointsBtn = document.getElementById('earn-points');
+        const redeemPointsBtn = document.getElementById('redeem-points');
+        const reportSubmit = document.getElementById('report-submit');
+        const fileUpload = document.getElementById('file-upload');
+        
+        // Mobile Menu Toggle
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+        
+        // Login Modal
+        loginBtn.addEventListener('click', () => {
+            loginModal.classList.add('active');
+        });
+        
+        closeLogin.addEventListener('click', () => {
+            loginModal.classList.remove('active');
+        });
+        
+        // Verification Function
+        verifyBtn.addEventListener('click', () => {
+            const contactType = document.getElementById('contact-type').value;
+            const contactValue = document.getElementById('contact-value').value;
+            const hotelName = document.getElementById('hotel-name').value;
+            
+            if (!contactValue) {
+                alert('Harap masukkan kontak yang akan diverifikasi');
+                return;
+            }
+            
+            // Simulate verification process
+            verificationResult.style.display = 'block';
+            
+            // Random result for simulation
+            const results = [
+                { status: 'verified', title: 'Kontak Terverifikasi', description: 'Kontak ini adalah kontak resmi hotel.', details: 'Kontak telah diverifikasi oleh sistem WHIZ M dan tercatat dalam database resmi.' },
+                { status: 'fraud', title: 'Kontak Terindikasi Penipuan', description: 'Kontak ini telah dilaporkan sebagai penipu.', details: 'Kontak ini telah dilaporkan oleh 15 pengguna WHIZ M sebagai penipu yang mengatasnamakan hotel.' },
+                { status: 'unknown', title: 'Kontak Tidak Diketahui', description: 'Kontak ini belum terdaftar dalam database WHIZ M.', details: 'Kami belum memiliki cukup data untuk memverifikasi kontak ini. Harap berhati-hati.' }
+            ];
+            
+            const result = results[Math.floor(Math.random() * results.length)];
+            
+            // Set result classes and content
+            verificationResult.className = 'verification-result ' + result.status;
+            resultTitle.textContent = result.title;
+            resultDescription.textContent = result.description;
+            resultDetails.innerHTML = `<p>${result.details}</p>`;
+            
+            // Add specific details based on result
+            if (result.status === 'verified') {
+                resultDetails.innerHTML += `
+                    <p><strong>Hotel:</strong> ${hotelName || 'Tidak disebutkan'}</p>
+                    <p><strong>Jenis Kontak:</strong> ${contactType === 'whatsapp' ? 'WhatsApp' : contactType === 'phone' ? 'Telepon' : 'Email'}</p>
+                    <p><strong>Terakhir Diperbarui:</strong> 1 minggu yang lalu</p>
+                `;
+            } else if (result.status === 'fraud') {
+                resultDetails.innerHTML += `
+                    <p><strong>Hotel yang Disalahgunakan:</strong> ${hotelName || 'Tidak disebutkan'}</p>
+                    <p><strong>Jumlah Laporan:</strong> ${Math.floor(Math.random() * 20) + 5}</p>
+                    <p><strong>Status:</strong> Aktif dalam database penipuan</p>
+                `;
+            }
+            
+            // Add points if user is logged in (simulated)
+            if (Math.random() > 0.5) {
+                const currentPoints = parseInt(pointsCount.textContent);
+                pointsCount.textContent = currentPoints + 5;
+            }
+        });
+        
+        // Chatbot Functionality
+        chatbotToggle.addEventListener('click', () => {
+            chatbotWindow.classList.toggle('active');
+        });
+        
+        closeChatbot.addEventListener('click', () => {
+            chatbotWindow.classList.remove('active');
+        });
+        
+        function addChatMessage(message, isUser) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : 'ai-message'}`;
+            messageDiv.textContent = message;
+            chatbotMessages.appendChild(messageDiv);
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        }
+        
+        sendChatbotMessage.addEventListener('click', () => {
+            const message = chatbotInput.value.trim();
+            if (message) {
+                addChatMessage(message, true);
+                chatbotInput.value = '';
+                
+                // Simulate AI response
+                setTimeout(() => {
+                    const responses = [
+                        "Saya dapat membantu Anda memverifikasi kontak hotel. Silakan masukkan nomor WhatsApp, telepon, atau email yang ingin diverifikasi.",
+                        "Untuk melaporkan penipuan, Anda perlu mengisi formulir pelaporan dengan detail dan bukti yang valid.",
+                        "Kontak hotel resmi dapat dilihat di bagian 'Kontak Resmi' pada website kami.",
+                        "Anda dapat mendapatkan poin dengan melaporkan penipuan yang kemudian dapat ditukar dengan hadiah.",
+                        "Terima kasih telah menggunakan WHIZ M. Ada hal lain yang bisa saya bantu?"
+                    ];
+                    const response = responses[Math.floor(Math.random() * responses.length)];
+                    addChatMessage(response, false);
+                }, 1000);
+            }
+        });
+        
+        chatbotInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendChatbotMessage.click();
+            }
+        });
+        
+        // Settings Panel
+        settingsToggle.addEventListener('click', () => {
+            settingsPanel.classList.add('open');
+        });
+        
+        closeSettings.addEventListener('click', () => {
+            settingsPanel.classList.remove('open');
+        });
+        
+        // Theme Switching
+        themeOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                themeOptions.forEach(opt => opt.classList.remove('active'));
+                option.classList.add('active');
+                
+                const theme = option.dataset.theme;
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+            });
+        });
+        
+        // Check for saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        themeOptions.forEach(option => {
+            if (option.dataset.theme === savedTheme) {
+                option.classList.add('active');
+            } else {
+                option.classList.remove('active');
+            }
+        });
+        
+        // Points System
+        earnPointsBtn.addEventListener('click', () => {
+            alert('Anda dapat mendapatkan poin dengan:\n- Melaporkan penipuan (+10 poin)\n- Mengonfirmasi laporan penipuan (+5 poin)\n- Verifikasi kontak (+5 poin)\n- Mengundang teman (+15 poin)');
+        });
+        
+        redeemPointsBtn.addEventListener('click', () => {
+            const currentPoints = parseInt(pointsCount.textContent);
+            if (currentPoints < 50) {
+                alert(`Anda membutuhkan minimal 50 poin untuk menukarkan hadiah. Poin Anda saat ini: ${currentPoints}`);
+            } else {
+                alert(`Poin Anda: ${currentPoints}. Anda dapat menukarkan poin dengan:\n- Voucher makan (50 poin)\n- Diskon kamar hotel (100 poin)\n- Free night stay (200 poin)`);
+            }
+        });
+        
+        // Report Submission
+        reportSubmit.addEventListener('click', () => {
+            const reportContact = document.getElementById('report-contact').value;
+            const reportHotel = document.getElementById('report-hotel').value;
+            const reportDetails = document.getElementById('report-details').value;
+            
+            if (!reportContact || !reportHotel || !reportDetails) {
+                alert('Harap lengkapi semua field yang diperlukan');
+                return;
+            }
+            
+            alert('Laporan Anda telah berhasil dikirim. Tim WHIZ M akan memverifikasi laporan Anda dalam 1-2 hari kerja.');
+            
+            // Add points for reporting
+            const currentPoints = parseInt(pointsCount.textContent);
+            pointsCount.textContent = currentPoints + 10;
+            
+            // Reset form
+            document.getElementById('report-contact').value = '';
+            document.getElementById('report-hotel').value = '';
+            document.getElementById('report-details').value = '';
+        });
+        
+        // File Upload Simulation
+        fileUpload.addEventListener('click', () => {
+            alert('Fitur upload bukti akan membuka galeri foto Anda. Dalam simulasi ini, kami anggap Anda telah memilih 3 gambar bukti.');
+        });
+        
+        // Initialize points with random value for simulation
+        pointsCount.textContent = Math.floor(Math.random() * 50) + 10;
+    </script>
+</body>
+</html>
